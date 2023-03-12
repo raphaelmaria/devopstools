@@ -3,6 +3,18 @@
 ## By Rodrigo César Assis
 USER="ubuntu"   # change-me
 
+# Resolvendo problema de Atualizacao
+# Atualiza Lista de repositorios
+sudo apt update
+# Efetua atualizacao de todos os pacotes atuais
+sudo apt upgrade -y
+# Atualiza a versao presente no equipamento por uma mais nova.
+sudo apt dist-upgrade -y
+# instala atualizacoes forcando o download dos complementos ausentes no equipamento.
+sudo apt upgrade --fix-missing
+# Instala todos os complementos necessários para rodar pacotes instalados fora do repositorio.
+sudo apt install --fix-broken
+
 echo "
 ### DevOps Tools - Install ###
 
@@ -41,6 +53,9 @@ function1()
     echo -e "\nInstall Docker Engine, containerd"
     sudo apt update
     sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin
+    # Instala pacotes que estao ausentes e podem gerar a quebra da aplicacao
+    sudo apt -y install --fix-broken
+
     sudo usermod -aG docker $USER
     echo -e "\nFinalizando instalacao do DOCKER\n"
     echo "-------------------------//-------------------------"
@@ -86,6 +101,8 @@ function5()
     echo -e "\n3.Update and install\n "
     sudo apt update
     sudo apt install terraform -y
+    # Instala pacotes que estao ausentes e podem gerar a quebra da aplicacao
+    sudo apt -y install --fix-broken
     echo -e "\nFinalizando instalacao do TERRAFORM\n"
     echo "-------------------------//-------------------------"
 }
@@ -96,6 +113,8 @@ function6()
     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.0.30.zip" -o "awscliv2.zip"
     sudo unzip awscliv2.zip
     sudo ./aws/install
+    # Instala pacotes que estao ausentes e podem gerar a quebra da aplicacao
+    sudo apt -y install --fix-broken
     echo -e "\nFinalizando instalacao do AWS CLI\n"
     echo "-------------------------//-------------------------"
 }
@@ -108,7 +127,7 @@ function7()
 function0()
 {
     echo "### Limpando lixo de pacotes ###"
-    sudo apt autoremove
+    sudo apt autoremove -y
     sudo apt clean
     echo -e "\nFinalizando limpeza\n"
 }
